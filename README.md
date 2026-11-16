@@ -82,7 +82,7 @@ Repository `jonasdaltongent/Agenda-NovaDepot`, Pages op `main`, map `/ (root)`; 
 `classroom.json`: **Communicatie 4 — Uitnodigen met de agenda**, onderwerp *Digitale competenties*, 3ORLO, 4ORLOa en 4ORLOb, 20 punten, deadline vrijdag 20 november 2026,
 20.00 uur. Bijlagen: de link naar de lespagina en `CO4_Uitnodigen-met-de-agenda` (**Een kopie maken voor elke leerling**). Geen zip.
 
-**Stand:** {{CLASSROOM}}
+**Stand:** als **concept** klaargezet op 16-11-2026 in 3ORLO, 4ORLOa en 4ORLOb (de koppeling meldde per klas *concept aangemaakt* onder *Digitale competenties*; de bijlagen en de deadline zijn niet apart teruggelezen). Nog niet ingepland: dat doet de hoofdsessie (`--publiceer --klas <klas> --inplannen`). Klassen: 3ORLO `MTYyNjY1NjU1OTEx`, 4ORLOa `MjUzMTgzNDM2NjZa`, 4ORLOb `MjUzMTc2OTkwNzNa` (het deel van de link naar de klas: classroom.google.com/c/<id>).
 
 Instructietekst:
 
