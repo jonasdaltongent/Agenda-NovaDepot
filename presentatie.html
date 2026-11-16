@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="nl-BE">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Uitnodigen met de agenda · dia's · NovaDepot</title>
+  <link rel="icon" href="assets/novadepot-icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/slides.css">
+  <style>
+    .compact .two { flex: 0 0 auto; }
+    .compact .panel p { margin-bottom: 10px; }
+    .compact .panel p:last-child { margin-bottom: 0; }
+    .qhead { font-size: 30px; font-weight: 700; margin: 0 0 6px; }
+    .qcol .opt { font-size: 26px; padding: 8px 16px; }
+    .qcol .opt .n { width: 46px; height: 46px; font-size: 24px; }
+    .klok { font-size: 22px; color: #4D5573; }
+    .steps1 { margin: 0; padding-left: 1.2em; }
+    .steps1 li { font-size: 27px; margin-bottom: 14px; }
+    .steps1 li:last-child { margin-bottom: 0; }
+    .lbl { font-weight: 700; font-size: 22px !important; margin: 0 0 10px; color: var(--navy-deep); }
+    .rood { color: #A0372A; font-weight: 700; }
+    .groen { color: #1F7A55; font-weight: 700; }
+    .vond { list-style: none; padding: 0 !important; margin: 0 0 14px; display: grid; gap: 12px; }
+    .vond li { display: grid; grid-template-columns: 56px 1fr; gap: 16px; align-items: center; background: #fff; border: 2px solid #D6D5CB; border-radius: 14px; padding: 10px 18px; font-size: 26px !important; margin: 0 !important; line-height: 1.3; }
+    .vond .nr { width: 46px; height: 46px; border-radius: 50%; background: var(--navy); color: #fff; font-weight: 700; font-size: 24px; display: flex; align-items: center; justify-content: center; }
+    /* een nagemaakt venster Nieuw bericht (kijk naar de mail van Tom) */
+    .dmail { background: #fff; border: 2px solid #9AA0A6; border-radius: 12px 12px 6px 6px; overflow: hidden; font-family: Arial, Helvetica, sans-serif; font-size: 23px; color: #202124; box-shadow: 0 8px 24px rgba(29,35,64,.15); }
+    .dm-kop { background: #F2F6FC; font-weight: 700; font-size: 20px; padding: 8px 18px; }
+    .dm-veld { display: flex; gap: 14px; padding: 8px 18px; border-bottom: 1px solid #E3E3E3; font-size: 21px; }
+    .dm-veld span { color: #5F6368; min-width: 120px; }
+    .dm-veld .leeg { color: #A0372A; font-style: italic; }
+    .dm-tekst { padding: 14px 18px 4px; }
+    .dm-tekst p { margin: 0 0 12px !important; font-size: 23px !important; line-height: 1.3 !important; }
+    /* de zes bouwstenen: een nummer en de naam links, wat erin staat rechts */
+    .dbouw { background: #fff; border: 2px solid #9AA0A6; border-radius: 12px 12px 6px 6px; overflow: hidden; font-family: Arial, Helvetica, sans-serif; box-shadow: 0 8px 24px rgba(29,35,64,.15); }
+    .db-kop { background: #F2F6FC; font-weight: 700; font-size: 21px; padding: 6px 18px; }
+    .db-veld { display: flex; gap: 14px; padding: 6px 18px; border-bottom: 1px solid #E3E3E3; font-size: 22px; color: #5F6368; }
+    .db-veld span { min-width: 150px; }
+    .db-rij { display: grid; grid-template-columns: 290px 1fr; gap: 16px; align-items: center; padding: 10px 18px; border-bottom: 1px dashed #D6D5CB; }
+    .db-rij:last-child { border-bottom: 0; }
+    .db-naam { display: flex; align-items: center; gap: 12px; font-weight: 700; color: var(--navy-deep); font-size: 27px; }
+    .db-naam b { flex: none; width: 42px; height: 42px; border-radius: 50%; background: var(--navy); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 23px; }
+    .db-tekst { font-size: 26px; color: #202124; line-height: 1.2; }
+    .ondw { background: #fff; border: 3px solid var(--navy); border-radius: 12px; padding: 8px 16px; margin: 0; font-family: Arial, sans-serif; font-size: 24px !important; line-height: 1.25 !important; }
+    .ondw .lblk { display: block; font-size: 18px; color: #5F6368; margin-bottom: 2px; }
+    .ondw.slecht { border-color: #A0372A; }
+    .ondw.goed { border-color: var(--ok); }
+    .groot { font-size: 30px !important; }
+    .markeer { background: #FCD6CF; border-radius: 6px; padding: 0 8px; font-weight: 700; }
+
+    /* Les 14: een nagemaakte afspraak van Google Agenda */
+    .dag { background: #fff; border: 2px solid #9AA0A6; border-radius: 14px; overflow: hidden; font-family: Arial, Helvetica, sans-serif; color: #202124; box-shadow: 0 8px 24px rgba(29,35,64,.15); }
+    .dag .ag-top { background: #F2F6FC; font-weight: 700; font-size: 24px; padding: 10px 20px; }
+    .dag .ag-r { display: flex; gap: 14px; padding: 9px 20px; border-bottom: 1px solid #E3E3E3; font-size: 24px; }
+    .dag .ag-r span { color: #5F6368; min-width: 130px; font-size: 21px; padding-top: 2px; }
+    .dag .ag-r.leeg b { font-weight: 400; color: #5F6368; font-style: italic; }
+    .dag .ag-voet { display: flex; gap: 14px; justify-content: flex-end; padding: 14px 20px; }
+    .dag .ag-knop { display: inline-block; border: 2px solid #DADCE0; border-radius: 99px; padding: 8px 24px; font-weight: 700; font-size: 25px; color: #0B57D0; background: #fff; }
+    .dag .ag-knop.blauw { background: #0B57D0; border-color: #0B57D0; color: #fff; }
+    .dag .ag-vraag { padding: 18px 22px 4px; font-weight: 700; font-size: 25px; line-height: 1.3; }
+    .dag .groen { color: #1F7A55; }
+    .dzes { list-style: none; counter-reset: z; margin: 0; padding: 0 !important; display: grid; gap: 10px; }
+    .dzes li { counter-increment: z; display: grid; grid-template-columns: 46px 1fr; gap: 14px; align-items: center; background: #fff; border: 2px solid #D6D5CB; border-radius: 14px; padding: 8px 16px; font-size: 25px !important; margin: 0 !important; line-height: 1.2; }
+    .dzes li::before { content: counter(z); width: 40px; height: 40px; border-radius: 50%; background: var(--navy); color: #fff; font-weight: 700; font-size: 22px; display: flex; align-items: center; justify-content: center; }
+    .dzes li b { color: var(--navy-deep); }
+    .dzes li.voor { border-color: var(--ok); background: #F2FAF6; }
+    .badge { display: inline-flex; width: 40px; height: 40px; border-radius: 50%; background: var(--navy); color: #fff; font-weight: 700; font-size: 22px; align-items: center; justify-content: center; margin-right: 12px; vertical-align: middle; }
+
+  </style>
+</head>
+<body>
+<div class="hud"><span id="counter"></span> · <kbd>→</kbd> verder · <kbd>F</kbd> volledig scherm · <kbd>N</kbd> notities</div>
+<div class="deck"><div class="stage">
+
+<!-- 1 · vaste startdia -->
+<section class="slide start">
+  <div class="start-kop">
+    <div>
+      <p class="kicker">Toegepaste Informatica · les 14</p>
+      <h1>Uitnodigen met de agenda</h1>
+    </div>
+    <span class="start-zo">Zo start je</span>
+  </div>
+  <ol class="startroute">
+    <li><div class="sr-beeld"><div class="pc-scherm"><span class="pc-avatar"></span><span class="pc-veld">••••••</span></div><div class="pc-voet"></div></div><span class="sr-tekst">Meld je aan op de computer.</span></li>
+    <li><div class="sr-beeld"><span class="url-balk"><img class="logo" src="assets/logos/classroom.svg" alt="">classroom.google.com</span><span class="url-knop">Inloggen</span></div><span class="sr-tekst">Ga in Chrome naar Classroom. Klik op <span class="knop">Inloggen</span>.</span></li>
+    <li><div class="sr-beeld"><span class="login-veld">…<b>@dalton.gent</b></span><span class="login-veld">••••••••</span></div><span class="sr-tekst">Log in met je schoolaccount.</span></li>
+    <li><div class="sr-beeld"><div class="lesgroep"><span class="lesgroep-kop">… 2027 - Informatica</span></div></div><span class="sr-tekst">Klik op je klas: 3ORLO, 4ORLOa of 4ORLOb.</span></li>
+    <li><div class="sr-beeld"><div class="tabs"><span class="tab-grijs"></span><span class="tab-aan">Schoolwerk</span><span class="tab-grijs"></span></div></div><span class="sr-tekst">Klik op <span class="knop">Schoolwerk</span>.</span></li>
+    <li><div class="sr-beeld"><span class="opdr-rij"><span class="opdr-ic"></span>Communicatie 4 — Uitnodigen…</span><span class="opdr-link">Instructies bekijken</span></div><span class="sr-tekst">Klik op de opdracht › <span class="knop">Instructies bekijken</span>.</span></li>
+    <li><div class="sr-beeld"><span class="bijl-chip aan"><img class="logo" src="assets/logos/lespagina.webp" alt="">Les 13 · Uitnodigen met de agenda</span></div><span class="sr-tekst">Klik op de lespagina.</span></li>
+    <li class="klaar">Klaar? Laat de lespagina open en kijk naar het bord.</li>
+  </ol>
+  <template class="note">
+    <p><strong>Lesstart (0–1'). De vaste startdia</strong> (sinds 09-10-2026, elke les dezelfde, voor alle klassen). Laat ze op het bord staan terwijl de leerlingen aanmelden.</p>
+    <p>Het <strong>wachtwoord van de computers</strong> staat niet op de dia: de dia's staan openbaar online. Zeg het, of schrijf het op het bord.</p>
+    <p>Ga verder als de meesten de lespagina open hebben. <strong>Duo's</strong>: zeg wie naast wie zit, of laat het op het bord staan (een oneven aantal: één trio). Schrijf ook het <strong>adres van je leraar</strong> op het bord: ze hebben het vanaf stap 4 nodig, niet op de dia's.</p>
+  </template>
+</section>
+
+<!-- 2 · lesstart: ophalen uit les 13 -->
+<section class="slide met-mascotte" data-answer>
+  <img class="mascotte" src="assets/mascotte/dalton_denken.webp" alt="" width="240" height="240">
+  <p class="kicker">Lesstart · 2 minuten</p>
+  <h2>Weet je het nog?</h2>
+  <div class="two" style="grid-template-columns: 1.15fr 1fr; flex: 0 0 auto; align-items: start">
+    <div class="dag" style="margin-bottom:6px">
+      <div class="ag-top">Les 13 · een uitnodiging in je inbox</div>
+      <div class="ag-r"><span>Van</span>helpdesk@novadepot-agenda.example</div>
+      <div class="ag-r"><span>Onderwerp</span>Uitnodiging vergadering</div>
+      <div class="ag-r" style="border-bottom:0"><b style="font-weight:400">“Meld u aan om deel te nemen.”</b></div>
+    </div>
+    <div class="qcol">
+      <p class="qhead">Echt of vals? Waarom?</p>
+      <div class="opts">
+        <div class="opt"><span class="n">A</span>Echt</div>
+        <div class="opt right"><span class="n">B</span>Vals</div>
+      </div>
+    </div>
+  </div>
+  <p class="answer" style="font-size:24px">Vals: vóór <em>.example</em> staat niet <em>novadepot</em>. Een echte uitnodiging komt van een collega die je kent.</p>
+  <p class="na-antwoord"><strong>Vandaag maak jij een echte uitnodiging.</strong></p>
+  <template class="note">
+    <p><strong>Lesstart (2'), ophalen uit les 13.</strong> Iedereen antwoordt tegelijk met vingers: 1 voor echt, 2 voor vals. Druk daarna op → voor het antwoord. Wie <em>echt</em> kiest: <em>"Welk woord staat vlak vóór .example? Is dat novadepot?"</em> Een echte uitnodiging komt van een collega die je kent.</p>
+    <p><strong>Brug</strong> (druk nog eens op →): <em>"Vandaag maak jij zelf een echte uitnodiging, voor een overleg bij NovaDepot."</em></p>
+  </template>
+</section>
+
+<!-- 3 · de vraag van Lotte en het lesdoel -->
+<section class="slide met-mascotte">
+  <img class="mascotte" src="assets/mascotte/dalton_wijzen_links.webp" alt="" width="240" height="240">
+  <p class="kicker">Ik doe · dia 1 van 4 · de vraag van Lotte</p>
+  <h2 style="margin-bottom:12px">Leg het overleg vast</h2>
+  <div class="panel" style="margin-bottom:14px">
+    <p class="lbl" style="margin-bottom:6px">Lotte Maes, personeelsdienst</p>
+    <p style="font-size:26px;margin:0"><em>“Tom, wil jij in de agenda een overleg vastleggen voor de infosessie van de jobstudenten? Nodig mij en Sara uit. Ik leid het overleg.”</em></p>
+  </div>
+  <ul class="rules">
+    <li>Je maakt in <strong>Google Agenda</strong> een afspraak met een <strong>zaal</strong>, <strong>gasten</strong> en een <strong>beschrijving</strong>.</li>
+    <li>Je verstuurt ze met <strong>Sturen</strong>, en je antwoordt op de uitnodiging van je duopartner.</li>
+  </ul>
+  <template class="note">
+    <p><strong>Ik doe, 1'.</strong> Lees de vraag van Lotte voor. <em>"Lotte en Sara willen de infosessie voor de vijf jobstudenten voorbereiden: dinsdag 1 december, om 10 uur. Jij legt dat overleg vast in de agenda."</em></p>
+    <p>Eindproduct: een afspraak in <strong>je eigen agenda</strong>, met twee gasten: <strong>ik</strong> (Lotte) en <strong>je duopartner</strong> (Sara). Ik krijg dus een berg uitnodigingen voor dinsdag 1 december: dat is de bedoeling, zo zie ik wie verstuurde. Zeg dat het adres op het bord staat.</p>
+    <p>Lesdoel voorlezen, niet toelichten. De uitleg duurt vijf minuten; daarna werken ze met de lespagina.</p>
+  </template>
+</section>
+
+<!-- 4 · de zes dingen -->
+<section class="slide compact">
+  <p class="kicker">Ik doe · dia 2 van 4 · kijk naar de afspraak</p>
+  <h2 style="margin-bottom:12px">Zes dingen in een uitnodiging</h2>
+  <div class="two" style="grid-template-columns: 1.1fr 1fr; align-items: start">
+    <div class="dag">
+      <div class="ag-top">Overleg nieuwe rekken magazijn</div>
+      <div class="ag-r reveal-item"><span><b class="badge">1</b></span><div>donderdag 3 december 2026 · 14.00 – 14.30<br>Magazijnkantoor</div></div>
+      <div class="ag-r leeg"><span>Gasten</span><b>Ahmed (aankoop), Lotte</b></div>
+      <div class="ag-r" style="display:block"><div class="reveal-item" style="margin-bottom:6px">Duur: 30 minuten.</div><div style="margin-bottom:6px">Ahmed leidt het overleg.</div><div style="margin-bottom:6px">Doel: beslissen welke nieuwe rekken we bestellen.</div><div style="margin-bottom:6px">Agenda: 1 de oude rekken bekijken · 2 twee offertes vergelijken · 3 beslissen en bestellen.</div><div>Kan je niet komen? Antwoord dan met Nee.</div></div>
+    </div>
+    <ol class="dzes">
+      <li class="voor reveal-item"><span><b>Plaats, datum en tijdstip</b></span></li>
+      <li class="voor reveal-item"><span><b>De duur</b></span></li>
+      <li><span><b>Wie leidt het overleg</b></span></li>
+      <li><span><b>De reden en het doel</b></span></li>
+      <li><span><b>De agenda</b> (de punten)</span></li>
+      <li><span><b>Kan je niet komen?</b></span></li>
+    </ol>
+  </div>
+  <template class="note">
+    <p><strong>Ik doe, 2'.</strong> Dit is een <strong>nieuw soort tekening</strong>, lees ze hardop: <em>"Dit is een afspraak in Google Agenda: een ander overleg, over nieuwe rekken in het magazijn. Rechts staan de zes dingen die in een uitnodiging horen (Lift 4A, p. 55)."</em></p>
+    <p>Druk op →: <em>"Eén en twee doe ik voor: waar en wanneer, en hoe lang. Zoek je ze in de tekening?"</em> De andere vier zoeken ze zelf in <strong>deel 1</strong> van het werkdocument, in een tekening met letters. Zeg niet welke regel bij welk nummer hoort.</p>
+    <p>De zes dingen: de agenda is hier <em>de punten van het overleg</em>, niet de kalender. Zeg dat.</p>
+  </template>
+</section>
+
+<!-- 5 · demo: de afspraak maken -->
+<section class="slide compact">
+  <p class="kicker">Ik doe · dia 3 van 4 · demo in Google Agenda</p>
+  <h2 style="margin-bottom:12px">Zo maak ik de afspraak</h2>
+  <div class="two" style="grid-template-columns: 1fr 1.1fr; align-items: start">
+    <ol class="steps1">
+      <li><strong>Maken</strong> › <strong>Afspraak</strong> › <strong>Meer opties</strong></li>
+      <li>De <strong>titel</strong>, de <strong>datum</strong> en het <strong>uur</strong></li>
+      <li><strong>Locatie toevoegen</strong>: ik typ de zaal</li>
+      <li>Rechts <strong>Gasten toevoegen</strong></li>
+      <li>De <strong>beschrijving</strong></li>
+    </ol>
+    <div class="dag reveal-item">
+      <div class="ag-top">Overleg nieuwe rekken magazijn</div>
+      <div class="ag-r"><span>Wanneer</span>do 3 december 2026 · 14.00 tot 14.30</div>
+      <div class="ag-r"><span>Locatie</span>Magazijnkantoor</div>
+      <div class="ag-r"><span>Gasten</span>Ahmed (aankoop), Lotte</div>
+      <div class="ag-r" style="display:block"><span style="display:block;margin-bottom:4px">Beschrijving</span>Ahmed leidt het overleg. Doel: … Agenda: 1 … 2 … 3 … Kan je niet komen? Antwoord met Nee.</div>
+    </div>
+  </div>
+  <template class="note">
+    <p><strong>Ik doe, 3'. Open Google Agenda zelf, op het scherm van de beamer.</strong> Denk hardop: <em>"Ik klik links op Maken, dan Afspraak, dan Meer opties: zo krijg ik het grote scherm."</em></p>
+    <p>Een voor een: de titel typen (<em>Overleg nieuwe rekken magazijn</em>); de datum (<strong>donderdag 3 december 2026</strong>) en het uur (14.00 tot 14.30); <strong>Locatie toevoegen</strong>: <em>"Er zijn geen zalen om te boeken, ik typ ze zelf: Magazijnkantoor."</em>; rechts <strong>Gasten toevoegen</strong>: Ahmed en Lotte (vul eigen voorbeeldadressen of je eigen collega's in; niet op de dia's laten zien); dan de beschrijving, met de vier delen. Zeg erbij: <em>"Wie leidt, het doel, de punten, en wat je doet als je niet kan komen."</em></p>
+    <p>Bij de eerste keer verschijnen twee vensters (<em>Welkom bij je nieuwe Google-agenda</em>, <em>donkere modus</em>): klik op <strong>OK</strong>. Een Meet-link mag blijven.</p>
+    <p>Druk op → om de tekening van het resultaat te tonen, als je de demo niet live doet.</p>
+  </template>
+</section>
+
+<!-- 6 · demo: sturen en antwoorden -->
+<section class="slide compact">
+  <p class="kicker">Ik doe · dia 4 van 4 · demo in Google Agenda</p>
+  <h2 style="margin-bottom:12px">Opslaan, Sturen, en antwoorden</h2>
+  <div class="two" style="grid-template-columns: 1fr 1fr; align-items: start">
+    <div>
+      <div class="dag" style="margin-bottom:18px">
+        <div class="ag-vraag">Wil je uitnodigingsmails sturen naar Google Agenda-gasten?</div>
+        <div class="ag-voet"><span class="ag-knop">Terug naar bewerken</span><span class="ag-knop">Niet sturen</span><span class="ag-knop blauw">Sturen</span></div>
+      </div>
+      <p class="klok" style="font-size:25px;margin:0">Na <strong>Opslaan</strong>: dit venster. Je klikt op <strong>Sturen</strong>.</p>
+    </div>
+    <div class="reveal-item">
+      <div class="dag" style="margin-bottom:18px">
+        <div class="ag-top">Overleg nieuwe rekken magazijn · uitnodiging</div>
+        <div class="ag-voet" style="justify-content:flex-start"><span class="ag-knop blauw">Ja</span><span class="ag-knop">Nee</span><span class="ag-knop">Misschien</span></div>
+      </div>
+      <p class="klok" style="font-size:25px;margin:0">Als gast klik je op de afspraak en kies je <strong>Ja</strong>, <strong>Nee</strong> of <strong>Misschien</strong>.</p>
+    </div>
+  </div>
+  <template class="note">
+    <p><strong>Ik doe, 2'.</strong> Klik op <strong>Opslaan</strong>. <em>"Agenda vraagt of ik uitnodigingsmails wil sturen. Drie knoppen: Terug naar bewerken, Niet sturen, Sturen. Ik kies Sturen: dan krijgen mijn gasten de uitnodiging."</em></p>
+    <p>Druk op →: <strong>antwoorden</strong>. Open in een tweede venster (of een ander account) de uitnodiging en klik op <strong>Ja</strong>: <em>"Zo antwoordt een gast. De organisator ziet dat in zijn afspraak, bij Gasten."</em> Als je dat niet live kan tonen, zeg het zo.</p>
+    <p>Wat nog niet getest is met een leerlingaccount: hoe een gast zijn antwoord ziet en hoe de organisator ziet wie komt. Kijk samen na.</p>
+  </template>
+</section>
+
+<!-- 7 · controle -->
+<section class="slide " data-answer>
+  <p class="kicker">Controle · iedereen antwoordt</p>
+  <h2>Wat kies je?</h2>
+  <div class="qcol">
+    <p class="qhead">Je klikte op Opslaan. Agenda vraagt: <em>“Wil je uitnodigingsmails sturen?”</em></p>
+    <div class="opts">
+      <div class="opt"><span class="n">A</span>Terug naar bewerken</div>
+      <div class="opt"><span class="n">B</span>Niet sturen</div>
+      <div class="opt right"><span class="n">C</span>Sturen</div>
+    </div>
+  </div>
+  <p class="answer">Sturen: pas dan krijgen je gasten de uitnodiging. Bij <em>Niet sturen</em> weten ze van niets.</p>
+  <template class="note">
+    <p><strong>Controle (1'). Iedereen antwoordt tegelijk</strong>: 1, 2 of 3 vingers voor A, B of C. Kijk rond en onthoud wie A of B toont.</p>
+    <p>Wie B kiest: <em>"Wie weet dan van de afspraak? En wie ziet ze in zijn agenda?"</em> Wie A kiest: <em>"Dan sla je nog niets op: je bent nog niet klaar."</em> Druk op → voor het antwoord. Wie B toont, komt zo meteen even bij je.</p>
+  </template>
+</section>
+
+<!-- 8 · iedereen doet stap 1 -->
+<section class="slide ">
+  <p class="kicker">Samen · 3 minuten</p>
+  <h2>Iedereen doet stap 1</h2>
+  <div class="panel">
+    <ol class="steps1">
+      <li>Ga naast je <strong>duopartner</strong> zitten. Open de lespagina, klik op <strong>Stap 1 · Klaarzetten</strong>.</li>
+      <li>Open je <strong>eigen</strong> werkdocument. Lees het kader <strong>Wat Lotte vraagt</strong>.</li>
+      <li>Open <strong>Google Agenda</strong> in een tweede tabblad. Klik op <strong>OK</strong> in de eerste vensters.</li>
+      <li>Klaar? Steek je <strong>duim</strong> op.</li>
+    </ol>
+  </div>
+  <template class="note">
+    <p><strong>Samen (3').</strong> Iedereen doet stap 1 tegelijk. Loop rond en kijk naar de schermen: heeft elk van het duo het eigen werkdocument open (de naam in de titel)? Staat Google Agenda open, met de twee eerste vensters weggeklikt?</p>
+    <p>Duim op bij de meesten: ga naar de volgende dia. Wie op de controlevraag fout had of hier vastloopt, blijft 3 tot 5 minuten bij je. De rest begint aan stap 2.</p>
+    <p>Zeg één zin over <em>Toon stapjes</em>: <em>"Weet je niet hoe het moet? Klik op Toon stapjes, dan zie je elk klein stapje met een beeld."</em> En: <em>"Het adres van je leraar staat op het bord. Het hoort niet op de lespagina."</em></p>
+  </template>
+</section>
+
+<!-- 9 · zo werk je verder -->
+<section class="slide compact met-mascotte">
+  <img class="mascotte" src="assets/mascotte/dalton_laptop.webp" alt="" width="240" height="240">
+  <p class="kicker">Keuzewerktijd · <span class="eindtijd">40 minuten</span></p>
+  <h2>Zo werk je verder</h2>
+  <div class="two" style="grid-template-columns: 1.6fr 1fr">
+    <div>
+      <ol class="steps1 kloklijst" data-lesmomenten="2026-11-17/14.35/15.25/4ORLOb/8;2026-11-17/15.25/16.15/3ORLO/9;2026-11-18/11.15/12.05/4ORLOa/4" data-beltijden="8.25-9.15 9.15-10.05 10.25-11.15 11.15-12.05 12.05-12.55 13.45-14.35 14.35-15.25 15.25-16.15 16.15-17.05">
+        <li data-min="3" data-samen>Klaarzetten <span class="klok tijd">samen &#10003;</span></li>
+        <li data-min="4">Wat staat er in een uitnodiging? <span class="klok tijd">4'</span></li>
+        <li data-min="2">Welke zaal? <span class="klok tijd">2'</span></li>
+        <li data-min="12">De afspraak maken <span class="klok tijd">12'</span></li>
+        <li data-min="7">Opslaan en Sturen <span class="klok tijd">7'</span></li>
+        <li data-min="7">Antwoorden <span class="klok tijd">7'</span></li>
+        <li data-min="5">Inleveren <span class="klok tijd">5'</span></li>
+      </ol>
+    </div>
+    <div class="panel navy">
+      <p style="font-size:25px"><strong>Vast?</strong></p>
+      <p style="font-size:26px">1. <em>Toon stapjes</em><br>2. Je duopartner<br>3. Ik</p>
+      <p style="margin-top:14px;font-size:22px">Het <strong>adres van je leraar</strong> staat op het bord.</p>
+    </div>
+  </div>
+  <p class="klok" style="margin-top:18px;font-size:25px">
+    <strong>Alles staat in de opdracht in <span class="met-logo"><img class="logo" src="assets/logos/classroom.svg" alt="">Google Classroom</span></strong> <em>Communicatie 4 — Uitnodigen met de agenda</em>: de lespagina en je werkdocument. Je levert in na de zelftest.<br>Adres: jonasdaltongent.github.io/Agenda-NovaDepot/<!-- PAS AAN --></p>
+  <template class="note">
+    <p><strong>Keuzewerktijd.</strong> Laat deze dia staan zolang ze werken. <strong>De kloktijden</strong> komen uit de planning: buiten de les toont de dia de uren van het geplande lesmoment (met de dag en de klas erbij); tijdens dat lesmoment rekent ze vanaf nu tot de bel, min 1 minuut voor de exitvraag. Stap 1 is al samen gedaan (dia 8). Te vroeg getoond, of geef je de les op een ander uur? Druk op <strong>T</strong>.</p>
+    <p><strong>Eerste rondgang:</strong> staat de afspraak op <strong>di 1 december 2026</strong> (niet vandaag, niet 2025)? Zit de zaal bij <strong>Locatie</strong>? Zijn de gasten je leraar en de duopartner? <strong>Tweede rondgang, rond stap 5:</strong> klikte iedereen op <strong>Sturen</strong>? Controleer in je eigen agenda: komen de uitnodigingen binnen?</p>
+    <p>Denkvragen: <em>"Wat staat er in je beschrijving? Wie leidt, wat is het doel, wat zijn de punten?"</em> · <em>"Waarom zet je de zaal niet in de titel?"</em> · <em>"Wat zie je als je op Sturen klikt?"</em></p>
+    <p>Een duo dat vastzit: een hint, geen antwoord. Is de duopartner afwezig: nodig alleen de leraar uit, en wijs in stap 6 een ander duo aan. Minimumroute: deel 1, 2a, 2b (de afspraak verstuurd en overgetypt) en deel 3 vraag 2.</p>
+    <p><strong>Vergeet niet</strong> het adres op deze dia aan te passen als de repository anders heet. Het adres van de leraar staat op het bord, niet op de dia.</p>
+  </template>
+</section>
+
+<!-- 10 · exitvraag -->
+<section class="slide met-mascotte" data-answer>
+  <img class="mascotte" src="assets/mascotte/dalton_hulp.webp" alt="" width="240" height="240">
+  <p class="kicker">Afsluiten · laatste minuut</p>
+  <h2 style="margin-bottom:10px">Eén vraag voor je vertrekt</h2>
+  <div class="qcol">
+    <p class="qhead" style="font-size:26px">Je hebt een afspraak gemaakt en verstuurd. Hoe zie je wie er komt?</p>
+    <div class="opts">
+      <div class="opt" style="font-size:25px"><span class="n">A</span>Ik wacht tot iemand mailt</div>
+      <div class="opt right" style="font-size:25px"><span class="n">B</span>Ik open mijn afspraak en kijk bij Gasten</div>
+      <div class="opt" style="font-size:25px"><span class="n">C</span>Ik vraag het aan iedereen</div>
+    </div>
+  </div>
+  <p class="answer" style="font-size:24px">Bij Gasten in je eigen afspraak: daar staat wie Ja, Nee of Misschien koos.</p>
+  <p style="margin-top:6px;font-size:24px"><strong>Vertrek je? Log uit, of druk op Windows + L.</strong><br>Morgen: <strong>E1</strong>, de e-mailopdracht met een agenda-uitnodiging.</p>
+  <template class="note">
+    <p><strong>Afsluiting, laatste minuut van de keuzewerktijd.</strong> Laat twee of drie leerlingen antwoorden, en druk dan op → voor het antwoord. Wie A kiest: <em>"Moet je dat zelf navragen? Wat doet de agenda voor je?"</em></p>
+    <p>Zeg mondeling dat wie niet klaar is, toch inlevert, en dat elk van het duo zelf inlevert. Zeg ook dat <strong>les 15 (E1)</strong> een e-mail met bijlage en een agenda-uitnodiging is: dit was de oefening.</p>
+    <p><strong>Vertrekken:</strong> iedereen logt uit, of drukt op Windows + L.</p>
+    <p>Na de les: kijk in je eigen agenda naar dinsdag 1 december: hoeveel uitnodigingen kwamen er, en klopt de inhoud (titel, 10.00 tot 10.45, zaal, beschrijving)? Kijk in de werkdocumenten naar deel 2b en het codewoord (OVERLEG).</p>
+  </template>
+</section>
+
+
+</div></div>
+<div class="notes" id="notes"></div>
+<script src="js/slides.js"></script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+{
+  "lesid": "novadepot-agenda",
+  "lesnr": "14",
+  "titel": "Communicatie 4 - Uitnodigen met de agenda (het overleg over de infosessie)",
+  "week": 11,
+  "schooljaar": "2026-2027",
+  "datum": "2026-11-17",
+  "_opmerking_datum": "Uur 1 van W11: 4ORLOb di 17 nov (8ste uur), 3ORLO di 17 nov (9de uur), 4ORLOa wo 18 nov (4de uur).",
+  "klasgroepen": [
+    "ORLO"
+  ],
+  "_opmerking_klasgroepen": "De klasgroepcode moet 'ORLO' zijn: daarmee telt het blad 'ORLO' de regels op. De echte klasnamen staan hieronder.",
+  "klasnaam": "3ORLO, 4ORLOa, 4ORLOb",
+  "finaliteit": "arbeidsmarktgerichte finaliteit",
+  "lesduur_minuten": 50,
+  "evaluatie": "formatief",
+  "deadline": "2026-11-20T20:00",
+  "bron": "https://github.com/jonasdaltongent/Agenda-NovaDepot",
+  "doelen": [
+    {"code": "BK2_02.10", "rol": "kern"},
+    {"code": "BK2_02.10.02", "rol": "kern"},
+    {"code": "BK2_02.10.03", "rol": "kern"},
+    {"code": "BV2_04.01", "rol": "kern"},
+    {"code": "BK2_02.04", "rol": "ondersteunend"}
+  ]
+}
